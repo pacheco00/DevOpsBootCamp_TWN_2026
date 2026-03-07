@@ -1,0 +1,1 @@
+Hi @ralph_student  you submit all the project repos at the end after you finish all the bootcamp. You send an email to badge-devops@techworld-with-nana.com telling us that you've finished the bootcamp material, then you'll get a reply that contains a form. You fill this form with your submission and we review it then.
