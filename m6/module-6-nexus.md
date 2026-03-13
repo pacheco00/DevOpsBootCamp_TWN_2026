@@ -19,10 +19,9 @@ Preparation for DIgital Badge Certificate
 * ls -l
 
 ## Set Nexus Configuration
-* /opt - vim nexus-3.89.1-02/bin/nexus.rc
-* run_as_user="nexus"
+* /opt - vim nexus-3.89.1-02/bin/nexus.rc - run_as_user="nexus"
 * su - nexus
-* Start nexus service - /opt/nexus-3.72.0-04/bin/nexus start
+* Start nexus service - /opt/nexus-3.72.0-04/bin/nexus start Ó ./nexus start
 * ps aux | grep nexus / netstat -lnpt
 * port 8081
 
@@ -54,7 +53,7 @@ tcp6       0      0 :::22                   :::*                    LISTEN      
 * default user ls /opt/sonatype-work/nexus3/ - admin.password
 * default pass cat /opt/sonatype-work/nexus3/admin.password
 * on web page, sign in - admin - password
-* set up new password / enable anonymous access
+* set up new password - password / enable anonymous access
 
 
 ## Publish Artifact to Repository

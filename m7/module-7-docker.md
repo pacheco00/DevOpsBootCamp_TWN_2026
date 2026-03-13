@@ -10,6 +10,8 @@ https://gitlab.com/twn-devops-bootcamp/latest/07-docker/js-app/-/tree/feature/st
 https://gitlab.com/twn-devops-bootcamp/latest/07-docker/js-app
 
 
+# Create Dockerfile for Nodejs application and build Docker image
+
 ## Download Images
 ```
 # docker pull mongo
@@ -38,7 +40,7 @@ docker run -d \
 -p 27017:27017 \
 -e MONGO_INITDB_ROOT_USERNAME=admin \
 -e MONGO_INITDB_ROOT_PASSWORD=password \
---name mongo \
+--name mongodb \
 --net mongo-network \
 mongo
 ```
@@ -99,7 +101,7 @@ services:
 ```
 
 ```
-# Docker-copose up
+# Docker-compose up
 $ docker ps
 CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                             NAMES
 88e3601bbe83   mongo           "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp   m7-mongodb-1
@@ -151,53 +153,44 @@ e958833d8136   mongo-express   "/sbin/tini -- /dock…"   45 seconds ago   Up 43
 ## Docker file
 ```
 FROM node:20-alpine
-
 ENV MONGO_DB_USERNAME=ADMIN \
     MONGO_DB_PWD=password
-
 RUN mkdir -p /home/app
-
 COPY . /home/app
-
 CMD ["node", "server.js"]
 ```
 
 ```
 # Docker build
 $ docker build -t my-app:1.0 .
-[+] Building 19.6s (9/9) FINISHED                                                                                           docker:desktop-linux
- => [internal] load build definition from Dockerfile                                                                                        0.4s
- => => transferring dockerfile: 193B                                                                                                        0.1s
- => [internal] load metadata for docker.io/library/node:20-alpine                                                                           3.1s
- => [auth] library/node:pull token for registry-1.docker.io                                                                                 0.0s
- => [internal] load .dockerignore                                                                                                           0.1s
- => => transferring context: 2B                                                                                                             0.0s 
- => [1/3] FROM docker.io/library/node:20-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa                    11.9s
- => => resolve docker.io/library/node:20-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa                     0.1s 
- => => sha256:7ad115895a6aadccf7f98a05c33873c04df2933ba557c5bcdbedd3de612803da 1.26MB / 1.26MB                                              0.7s 
- => => sha256:9d10d4687fae6e13c052431ea3221ccda835c3262df3564310345ffe173146d9 445B / 445B                                                  0.6s 
- => => sha256:ed2fdcee5269a06b0b8b77c69867176443364a72a9626e9aa2e66ab1ebda35a7 43.22MB / 43.22MB                                            8.0s
- => => extracting sha256:ed2fdcee5269a06b0b8b77c69867176443364a72a9626e9aa2e66ab1ebda35a7                                                   3.3s
- => => extracting sha256:7ad115895a6aadccf7f98a05c33873c04df2933ba557c5bcdbedd3de612803da                                                   0.1s 
- => => extracting sha256:9d10d4687fae6e13c052431ea3221ccda835c3262df3564310345ffe173146d9                                                   0.0s
- => [internal] load build context                                                                                                           0.1s
- => => transferring context: 225B                                                                                                           0.0s
- => [2/3] RUN mkdir -p /home/app                                                                                                            2.2s 
- => [3/3] COPY . /home/app                                                                                                                  0.1s
- => exporting to image                                                                                                                      1.0s
- => => exporting layers                                                                                                                     0.3s 
- => => exporting manifest sha256:255644274c742c9ecb777adcaabd78077b44d7ee90b71006657d3ff206d9fad3                                           0.1s
- => => exporting config sha256:18a8a67e67a2a5d60f28205a558e47ff24a5813b6cfe846fe4cb412482be2427                                             0.0s 
- => => exporting attestation manifest sha256:802f796c008a80d9b4dda9c67af3ceae22a83e33a5579effe54353a9a45a9c11                               0.1s 
- => => exporting manifest list sha256:163bbfff13703486aa10dd69a4040410d393f1e3acd5d749d4ba05c91ebaecbf                                      0.1s
- => => naming to docker.io/library/my-app:1.0                                                                                               0.0s 
- => => unpacking to docker.io/library/my-app:1.0                                                                                            0.2s
-
-View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/wpbc6qcoe8px6r97tv92h0ljt
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS     NAMES
+14f360fa2eaa   my-app:1.0   "docker-entrypoint.s…"   7 minutes ago   Up 7 minutes             confident_allen
+```
+```
+$ docker exec -it 14f360fa2eaa sh
+/home/app # ls
+images             index.html         node_modules       package-lock.json  package.json       server.js
+/home/app # ls /
+bin    dev    etc    home   lib    media  mnt    opt    proc   root   run    sbin   srv    sys    tmp    usr    var
 ```
 
+```
+/home/app # env
+NODE_VERSION=20.20.1
+HOSTNAME=14f360fa2eaa
+YARN_VERSION=1.22.22
+SHLVL=1
+HOME=/root
+MONGO_DB_USERNAME=admin
+TERM=xterm
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MONGO_DB_PWD=password
+PWD=/home/app
+/home/app #
+```
 
+# Create Docker repository on Nexus and push to it
 
-
-
+## Docker file
 
